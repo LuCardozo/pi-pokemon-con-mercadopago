@@ -1,0 +1,29 @@
+.card{
+   display: flex;
+   border: 5px solid orange;
+   border-radius: 10px;
+   background-color: rgb(211, 211, 120);
+   height: 430px;
+   width: 350px;
+   flex-direction: column;
+   justify-content: space-around;
+   margin: 20px;
+}
+h2{
+    display: flex;
+    justify-content: center;
+    font-family: cursive;
+}
+img{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+}
+p{
+    display: flex;
+    flex-direction: column;
+}
+a{
+    font-family: cursive;
+}

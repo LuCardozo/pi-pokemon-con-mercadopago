@@ -1,0 +1,34 @@
+
+.cards{
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+}
+.orden{
+    display: flex;
+    flex-direction: column;
+}
+.selectores{
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    height: 30px;
+    align-items: center;
+    justify-content: space-around;
+}
+.h1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+.loading{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin: 150px;
+}

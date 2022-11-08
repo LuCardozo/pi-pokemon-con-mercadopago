@@ -1,0 +1,14 @@
+.orden{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+.page{
+    display: flex;
+    border: 5px solid orange;
+    border-radius: 10px;
+    background-color: rgb(211, 211, 120);
+    padding: 10px;
+    margin: 20px;
+}

@@ -1,0 +1,21 @@
+
+.h1{
+    display: flex;
+    flex-direction: column;
+    color: purple;
+    justify-items: center;
+    align-items: center;
+}
+.button{
+    margin: 20px;
+    background-color: black;
+    border: 5px solid orange;
+    color:rgb(211, 211, 120);
+    border-radius: 10px;
+    width: 100px;
+    font-family: cursive;
+}
+button:hover{
+    background-color: white;
+    color: black;
+}
