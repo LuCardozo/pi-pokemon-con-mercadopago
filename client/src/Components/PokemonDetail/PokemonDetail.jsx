@@ -8,6 +8,9 @@ import { getPokemonDetail, pagar } from "../../Redux/Actions/actions";
 import s from "./pokemonstyle.module.css"
 
 export default function PokemonDetail(props){
+    const mercadopago = new MercadoPago('APP_USR-55e1574d-61b9-49a8-a1dc-11d5c95584a6', {
+        locale: 'es-AR' // The most common are: 'pt-BR', 'es-AR' and 'en-US'
+      });
     const dispatch = useDispatch();
     let {id} = useParams()
     console.log(id)
@@ -29,31 +32,53 @@ export default function PokemonDetail(props){
      
     const [link, setLink] = useState("");
 
-    let datos = {
+    let orderData = {
         name: pokemon.name,
         price: pokemon.hp,
         quantity: 1,
         unit_price: pokemon.hp
     }
     
+    fetch("/create_preference", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (preference) {
+          createCheckoutButton(preference.id);
+    
+          $(".shopping-cart").fadeOut(500);
+          setTimeout(() => {
+            $(".container_payment").show(500).fadeIn();
+          }, 500);
+        })
+        .catch(function () {
+          alert("Unexpected error");
+          $('#checkout-btn').attr("disabled", false);
+        });
 
-    const handleMercadoPago = async (e) =>{
-        e.preventDefault()
-        let response = await dispatch(pagar(datos))
-        console.log(response.data)
-        if(response.data){
-            const script = document.createElement("script");
-            script.type = "text/javascript"
-            script.src = "https://sdk.mercadopago.com/js/v2";
+    // const handleMercadoPago = async (e) =>{
+    //     e.preventDefault()
+    //     let response = await dispatch(pagar(datos))
+    //     console.log(response.data)
+    //     if(response.data){
+    //         const script = document.createElement("script");
+    //         script.type = "text/javascript"
+    //         script.src = "https://sdk.mercadopago.com/js/v2";
 
-            // script.setAttribute(data-preference-id, response.data); 
-            script.dataset.preferenceId = response.data.id;
-            const form = document.getElementById("form");
-            form.appendChild(script);
-            console.log(response.data)
-            console.log(script)
-            setLink(response.data.init)
-        }
+    //         // script.setAttribute(data-preference-id, response.data); 
+    //         script.dataset.preferenceId = response.data.id;
+    //         const form = document.getElementById("form");
+    //         form.appendChild(script);
+    //         console.log(response.data)
+    //         console.log(script)
+    //         setLink(response.data.init)
+    //     }
 
 
         // script.dataset.preferenceId = response.data;
@@ -61,12 +86,7 @@ export default function PokemonDetail(props){
         // document.getElementById("pago").appendChild(script);
         // console.log(script)
 
-
-
-    }
-
-      
-
+    
     return(
         <div>
             <Link to="/home">

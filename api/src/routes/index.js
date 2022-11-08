@@ -8,6 +8,7 @@ const {getById} = require("../MiddleWare/GetpokemonById")
 const {createpokemon} = require("../MiddleWare/CreatePokemon")
 const router = Router();
 const mercadopago = require("mercadopago");
+const cors = require("cors");
 
 mercadopago.configure({
     access_token: "APP_USR-3953691119722438-110705-8aa9c78385a42cb1b8a52623939155f8-1230124929",
@@ -93,4 +94,39 @@ router.post("/comprar", async (req, res) =>{
 
 })
 
+router.post("/create_preference", (req, res) => {
+
+	let preference = {
+		items: [
+			{
+				title: req.body.description,
+				unit_price: Number(req.body.price),
+				quantity: Number(req.body.quantity),
+			}
+		],
+		back_urls: {
+			"success": "http://localhost:8080/feedback",
+			"failure": "http://localhost:8080/feedback",
+			"pending": "http://localhost:8080/feedback"
+		},
+		auto_return: "approved",
+	};
+
+	mercadopago.preferences.create(preference)
+		.then(function (response) {
+			res.json({
+				id: response.body.id
+			});
+		}).catch(function (error) {
+			console.log(error);
+		});
+});
+
+router.get('/feedback', function (req, res) {
+	res.json({
+		Payment: req.query.payment_id,
+		Status: req.query.status,
+		MerchantOrder: req.query.merchant_order_id
+	});
+});
 module.exports = router;
